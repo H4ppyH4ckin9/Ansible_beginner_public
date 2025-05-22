@@ -1,0 +1,13 @@
+---
+source: .dymotd.sh
+users:
+  admin1:
+    path: /home/admin1/.dymotd.sh
+    dest: /home/admin1
+    user: admin1
+    group: admin1
+  root:
+    path: /root/.dymotd.sh
+    dest: /root
+    user: root
+    group: root
