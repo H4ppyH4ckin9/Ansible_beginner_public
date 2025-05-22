@@ -9,8 +9,8 @@ Join me on my journey to get better and better with Ansible. Let's see where we 
 
 Content 
 -------
--> simple single use playbooks
--> hopefully some more complex roles
+* simple single use playbooks
+*  hopefully some more complex roles
 
 
 Contact
