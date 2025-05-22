@@ -18,5 +18,5 @@ Contact
 "How do i contact you ?" Re: "Don't worry I'll find you :)"
 ![Example GIF](images/i-will-find-you-ill-find-you.gif)
 
-<img src="images/ansible.png" alt="Example Image" width="300" height="200">
+<img src="images/ansible.png" alt="Example Image" width="100" height="100">
 ###![Example Image](images/ansible.png)
