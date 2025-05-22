@@ -16,6 +16,6 @@ Content
 Contact
 -------
 "How do i contact you ?" Re: "Don't worry I'll find you :)"
-'[Example GIF](i-will-find-you-ill-find-you.gif)
+![Example GIF](i-will-find-you-ill-find-you.gif)
 
 ![Example Image](images/ansible.png)
