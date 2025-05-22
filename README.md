@@ -10,7 +10,7 @@ Content
 -------
 -> simple playbooks and roles
 
-----------------------------------------------------------------------------------------------
+
 Contact
 -------
 "How do i contact you ?" Re: "Don't worry I'll find you :)"
