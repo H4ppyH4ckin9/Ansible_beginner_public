@@ -1,5 +1,5 @@
-# Ansible Beginner Public Repo #
-================================
+Ansible Beginner Public Repo
+============================
 
 Intro
 -----
