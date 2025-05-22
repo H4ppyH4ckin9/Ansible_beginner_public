@@ -17,5 +17,4 @@ Content
 
 Contact
 -------
-![Example GIF](images/i-will-find-you-ill-find-you.gif)
-"How do i contact you ?" Re: "Don't worry I'll find you :)"
+![Example GIF](images/i-will-find-you-ill-find-you.gif) "How do i contact you ?" Re: "Don't worry I'll find you :)"
