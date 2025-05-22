@@ -3,16 +3,19 @@ Ansible Beginner Public Repo
 
 Intro
 -----
-This git repo is determind to all code monleys who are using ansible at a beginner level. 
+This Git repository is dedicated to all code monkeys who are using Ansible at a beginner level. 
+Join me on my journey to get better and better with Ansible. Let's see where we end up.
 
 
 Content 
 -------
--> simple playbooks and roles
+-> simple single use playbooks
+-> hopefully some more complex roles
 
 
 Contact
 -------
 "How do i contact you ?" Re: "Don't worry I'll find you :)"
+'[Example GIF](images/i-will-find-you-ill-find-you.gif)
 
 ![Example Image](images/ansible.png)
