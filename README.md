@@ -14,3 +14,7 @@ Content
 Contact
 -------
 "How do i contact you ?" Re: "Don't worry I'll find you :)"
+
+## Example Image
+
+![Example Image](images/ansible.png)
