@@ -1,7 +1,7 @@
 <img src="images/ansible.png" alt="Example Image" width="100" height="100">
-
-Ansible Beginner Public Repo 
-============================
+<h2 style="display: inline;">Ansible Beginner Public Repo </h2> <img src="images/your-image.png" alt="Description" style="width: 50px; height: auto; vertical-align: middle;">
+##Ansible Beginner Public Repo 
+##============================
 
 Intro
 -----
@@ -17,4 +17,4 @@ Content
 
 Contact
 -------
-![Example GIF](images/i-will-find-you-ill-find-you.gif) "How do i contact you ?" Re: "Don't worry I'll find you :)"
+![Example GIF](images/i-will-find-you-ill-find-you.gif)
