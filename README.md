@@ -1,6 +1,5 @@
 <img src="images/ansible.png" alt="Example Image" width="100" height="100">
-<h2 style="display: inline;">Ansible Beginner Public Repo </h2> <img src="images/ansible.png" alt="Description" style="width: 50px; height: auto; vertical-align: middle;">
-
+<h2 style="display: inline;">Ansible Beginner Public Repo </h2>
 Intro
 -----
 This Git repository is dedicated to all code monkeys who are using Ansible at a beginner level. 
