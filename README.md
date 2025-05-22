@@ -1,5 +1,5 @@
 # Ansible Beginner Public Repo #
-=====================================
+
 This git repo is determind to all code monleys who are using ansible at a beginner level. 
 Content: -> simple playbooks and roles
 
