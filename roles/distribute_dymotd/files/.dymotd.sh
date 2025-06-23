@@ -1,6 +1,5 @@
 #!/bin/bash
 # user needs sudo rights with NOPASSWD
-# script is only for axiadm & root user
 
 # color codings ############ BEGIN ############
 RED='\033[0;31m'
