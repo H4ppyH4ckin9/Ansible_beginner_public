@@ -10,20 +10,20 @@ OS is structured with at least one main volume group named like one of the examp
 vars main.yml.
 
 Here a short example:
+  ---
+    sda
+      -sda1   1GB   /boot
+    sdb
+      - /dev/mapper/vg_root-lv_root   5GB     /
+      - /dev/mapper/vg_root-lv_home   10GB    /home
+      - /dev/mapper/vg_root-lv_var    5GB     /var
+      - ....
+    sdc
+      - /dev/mapper/vg_data-lv_data   40GB    /data
 
-  sda
-    -sda1   1GB   /boot
-  sdb
-    - /dev/mapper/vg_root-lv_root   5GB     /
-    - /dev/mapper/vg_root-lv_home   10GB    /home
-    - /dev/mapper/vg_root-lv_var    5GB     /var
-    - ....
-  sdc
-    - /dev/mapper/vg_data-lv_data   40GB    /data
-
-  volume groups:
-    vg_root: 20GB
-    vg_data: 40GB
+    volume groups:
+      vg_root: 20GB
+      vg_data: 40GB
 
 
 Role Variables
