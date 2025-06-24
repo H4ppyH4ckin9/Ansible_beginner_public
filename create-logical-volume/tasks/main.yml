@@ -1,0 +1,79 @@
+- name: Get me vg_root or vg_root equivalents
+  shell: "vgs --noheadings | awk '{print $1}' | grep {{ item }}"
+  loop: "{{ possible_vgs }}"
+  register: vgs
+  ignore_errors: true
+
+- name: Filter resulsts of vgs
+  set_fact:
+    vg_main: "{{ vg_main | default([]) + [item] }}"
+  loop: "{{ vgs.results }}"
+  when: item.rc == 0
+
+- name: Check size of vg_root equivalents
+  shell: "vgs --units g --noheadings --separator ' ' | grep {{ vg_main[0].stdout }} | awk '{print int($7)}'"
+  register: vg_free
+  changed_when: false
+
+- name: Check if lv_opt exists
+  shell: "lvs | grep lv_opt | awk '{print $1}'"
+  register: lv_exists
+  changed_when: false
+  ignore_errors: true
+
+- name: Calculate size of lv_opt
+  shell: "expr 6 + $(du -sm /opt | awk '{print $1}') / 1024"
+  register: lv_opt_size
+
+- name: or lv_opt already exists
+  fail:
+    msg: "Not possible to build lv_opt because the lLV already exists"
+  when:
+    - lv_exists.rc != 0
+
+- name: LV not buildable EXIT
+  fail:
+    msg: "Not possible to build lv_opt {{ vg_main }} not enough free space"
+  when:
+    - (vg_free.stdout | int) <= "{{ lv_opt_size }}"
+
+- name: Build lv_opt
+  ansible.builtin.lvol:
+    vg: "{{ vg_main[0].stdout }}"
+    lv: lv_opt
+    size: "{{ lv_opt_size.stdout }}G"
+  when: 
+    - (vg_free.stdout | int) > "{{ lv_opt_size }}"
+    - lv_exists.rc == 0
+
+- name: Create the filesystem on the logical volume
+  filesystem:
+    fstype: "{{ fs_type }}"
+    dev: "/dev/{{ vg_main[0].stdout }}/{{ lv_name }}"
+  when: 
+    - lv_exists.rc == 0
+
+- name: Backup content
+  shell: mv /opt /opt_backup
+
+- name: Create /opt dir
+  shell: mkdir /opt
+
+- name: Add entry to /etc/fstab
+  lineinfile:
+    path: /etc/fstab
+    line: "/dev/mapper/{{ vg_main[0].stdout }}-{{ lv_name }} {{ mount_point }} {{ fs_type }} defaults 0 0"
+    state: present
+    insertafter: EOF
+  when: "'lv_opt' not in ansible_facts.lvm.lvs"
+
+- name: Mount the logical volume
+  command: "mount {{ mount_point }}"
+  notify: reload systemd
+  when: mount_point not in ansible_mounts | map(attribute='mount') | list
+
+- name: Move backuped data into /opt 
+  shell: mv /opt_backup/* /opt
+
+- name: Delete /opt backup dir
+  shell: rmdir /opt_backup

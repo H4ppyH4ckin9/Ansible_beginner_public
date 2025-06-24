@@ -1,0 +1,18 @@
+possible_vgs:
+ - vg00
+ - vg01
+ - vg001
+ - vg_root
+ - vgroot
+ - vg-root
+ - vg_system
+ - vg-system
+ - vgsystem
+ - vg01
+ - rl
+ - rhel8
+ - system
+ - ubuntu-vg
+lv_name: lv_opt
+fs_type: ext4
+mount_point: /opt
