@@ -1,0 +1,59 @@
+---                                                                                                                                                                                                                                                  
+- name: Get all admin users with a password expiring in less than 30days
+  hosts: all
+  become: true
+ 
+  vars:
+    users:
+      - root
+      - admin1
+      - admin2
+ 
+  tasks:
+    - name: Create timestamp
+      set_fact:
+        date: "{{ '%Y-%m-%d' | strftime }}"
+      changed_when: false
+ 
+    - name: Get password expiration in days
+      block:
+        - name: Calculate expire date into days$
+          shell: |
+            password_expire="$(sudo chage -l "{{ item }}" | awk -F ': ' '/Password expires/ {print $2}')"
+ 
+            if [[ "$password_expire" == "never" ]]; then
+              echo "never"
+            else
+              echo $(( ( $(date -d "$password_expire" +%s) - $(date +%s) ) / 86400 ))
+            fi
+          loop: "{{ users }}"
+          register: expire_days
+          changed_when: false
+ 
+        - name: Filter the users
+          set_fact:
+            expire_users: "{{ expiring_users | default([]) + [item.item] }}"
+          loop: "{{ expire_days.results }}"
+          when: item.stdout | int < 30
+          changed_when: false
+ 
+    - name: Create data sheet
+      block:
+        - name: Create header line in data file
+          lineinfile:
+            path: "/home/luhu/password_data/password-{{ date }}.csv"
+            line: "Username,Host,Days until expiration"
+            create: yes
+            mode: '0644'
+            state: present
+          delegate_to: localhost
+ 
+        - name: Create list with all passwords where expire is <30 days
+          lineinfile:
+            path: "/home/luhu/password_data/password-{{ date }}.csv"
+            line: "{{ item.item }},{{ ansible_host }},{{ item.stdout }}"
+            create: yes
+            mode: '0644'
+          loop: "{{ expire_days.results }}"
+          delegate_to: localhost
+          changed_when: false
