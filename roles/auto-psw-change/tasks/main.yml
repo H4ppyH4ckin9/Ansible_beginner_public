@@ -64,4 +64,4 @@
   delegate_to: localhost
 
 - name: Create & run DB inserts
-  include_task: db_insert.yml
+  include_tasks: db_insert.yml
