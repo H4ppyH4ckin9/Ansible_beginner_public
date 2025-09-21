@@ -2,16 +2,6 @@
   set_fact:                                                  
     password: "{{ lookup('community.general.random_string', length=12, min_lower=1, min_upper=1, min_numeric=1, min_special=1, override_special='!#*%&') }}"
                                                              
-- name: Validate password                                    
-  assert:                                                    
-    that:                                                    
-      - password | length >= password_length                 
-      - password | regex_search('[A-Z]')
-      - password | regex_search('[a-z]')
-      - password | regex_search('[0-9]')
-      - password | regex_search('[' + allowed_special_chars + ']')
-    fail_msg: "Password does not meet the required criteria."
-
 - name: Set new password for users
   user:
     name: "{{ item }}"

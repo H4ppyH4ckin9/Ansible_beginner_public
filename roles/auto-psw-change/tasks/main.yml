@@ -30,11 +30,12 @@
     - name: Create header line in data file
       lineinfile:
         path: "/path/to/data/file/password-{{ date }}.csv"
-        line: "Username,Host,Days until expiration"
+        line: "Username,Host,Password"
         create: yes
         mode: '0644'
         state: present
       delegate_to: localhost
+      changed_when: false
 
     - name: Create list with all passwords where expire is <7 days
       lineinfile:
@@ -64,4 +65,4 @@
   delegate_to: localhost
 
 - name: Create & run DB inserts
-  include_tasks: db_insert.yml
+  include_tasks: db_inserts.yml
