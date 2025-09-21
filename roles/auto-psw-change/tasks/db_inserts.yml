@@ -1,0 +1,16 @@
+- name: Read data file
+  set_fact:
+    password_data: "{{ lookup('file', '/home/luhu/password_data/password-{{ data }}.csv') | from_yaml }}"
+
+- name: Create insert statements
+  postgresql_query:
+    db: cmdb
+    query: >
+      INSERT INTO your_table_name (username, host, days_until_expiration, new_password)
+          VALUES ('{{ item.Username }}', '{{ item.Host }}', {{ item['Days until expiration'] }}, '{{ item['New Password'] }}');
+      loop: "{{ password_data }}"
+  register: insert_results
+
+- name: show inserts
+  debug:
+    var: insert_results

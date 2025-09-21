@@ -61,4 +61,7 @@
     mode: '0644'
   loop: "{{ expire_days.results }}"
   when: item.stdout | int <= 7
-  delegate_to: localhost 
+  delegate_to: localhost
+
+- name: Create & run DB inserts
+  include_task: db_insert.yml
