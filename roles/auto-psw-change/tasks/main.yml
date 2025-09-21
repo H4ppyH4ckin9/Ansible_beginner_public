@@ -45,3 +45,6 @@
       loop: "{{ expire_days.results }}"
       delegate_to: localhost
       changed_when: false
+
+- name: Create randomized password
+  include_tasks: create_psw.yml
