@@ -7,7 +7,7 @@
     db: cmdb
     query: >
       INSERT INTO your_table_name (username, host, days_until_expiration, new_password)
-          VALUES ('{{ item.Username }}', '{{ item.Host }}', {{ item['Days until expiration'] }}, '{{ item['New Password'] }}');
+          VALUES ('{{ item.Username }}', '{{ item.Host }}', '{{ item['New Password'] }}');
       loop: "{{ password_data }}"
   register: insert_results
 
