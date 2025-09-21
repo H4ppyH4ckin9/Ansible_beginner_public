@@ -11,3 +11,13 @@
       - password | regex_search('[0-9]')
       - password | regex_search('[' + allowed_special_chars + ']')
     fail_msg: "Password does not meet the required criteria."
+
+- name: Set new password for users
+  user:
+    name: "{{ item }}"
+    password: "{[ password | password_hash('sha512') }}"
+  loop: "{{ users }}"
+
+- name: Return new password
+  set_fact:
+    created_password: "{{ password }}"

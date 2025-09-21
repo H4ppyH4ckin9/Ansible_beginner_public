@@ -48,3 +48,17 @@
 
 - name: Create randomized password
   include_tasks: create_psw.yml
+  loop: "{{ expire_days.results }}"
+  when: item.stdout | int <= 7
+  loop_control:
+    label: "{{ item.item }}"
+
+- name: Append new passwords to the data sheet
+  lineinfile:
+    path: "/home/luhu/password_data/password-{{ date }}.csv"
+    line: "{{ item.item }},{{ ansible_host }},{{ item.stdout }},{{ created_password }}"
+    create: yes
+    mode: '0644'
+  loop: "{{ expire_days.results }}"
+  when: item.stdout | int <= 7
+  delegate_to: localhost 
