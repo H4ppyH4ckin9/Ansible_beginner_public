@@ -2,6 +2,7 @@ Automatic password change
 =========
 
 This role is intended to automatically renew passwords for users whose password expiration date is within the next seven days. New passwords are generated as part of the playbook execution. All passwords are securely stored in a PostgreSQL database located on the automation host running the playbook.
+
 Requirements
 ------------
 
