@@ -69,7 +69,7 @@
 - name: Append new passwords to the data sheet
   lineinfile:
     path: "/home/ansibleadm/password-{{ date }}.csv"
-    line: "{{ item.item }},{{ ansible_host }},{{ created_password[item.item] }}"
+    line: "{{ item.item }},{{ ansible_host }},{{ created_password }}"
     create: yes
     mode: '0644'
   loop: "{{ expire_days.results }}"
