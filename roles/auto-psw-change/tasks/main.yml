@@ -49,27 +49,28 @@
 
 - name: Create password
   block:
-    - name: Generate password
+    - name: Generate password for each user
       set_fact:
-        password: "{{ lookup('community.general.random_string', length=12, min_lower=1, min_upper=1, min_numeric=1, min_special=1, override_special='!#*%&') }}"
-    
+        user_passwords: "{{ user_passwords | default({}) | combine({ item.item: lookup('community.general.random_string', length=12, min_lower=1, min_upper=1, min_numeric=1, min_special=1, override_special='!#*%&') }) }}"
+      loop: "{{ expire_days.results }}"
+      when: item.stdout | int <= 7 and item.stdout != 'never'
+
     - name: Set new password for users
       user:
         name: "{{ item.item }}"
-        password: "{{ password | password_hash('sha512') }}"
+        password: "{{ user_passwords[item.item] | password_hash('sha512') }}"
       loop: "{{ expire_days.results }}"
       when: item.stdout | int <= 7 and item.stdout != 'never'
-      loop_control:
-        label: "{{ item.item }}"
-     
+
     - name: Return new password
       set_fact:
-        created_password: "{{ password }}"
+        created_password: "{{ user_passwords }}"
+      when: user_passwords is defined
   
 - name: Append new passwords to the data sheet
   lineinfile:
     path: "/home/ansibleadm/password-{{ date }}.csv"
-    line: "{{ item.item }},{{ ansible_host }},{{ created_password }}"
+    line: "{{ item.item }},{{ ansible_host }},{{ created_password[item.item] }}"
     create: yes
     mode: '0644'
   loop: "{{ expire_days.results }}"
