@@ -1,4 +1,10 @@
 password_length: 12
+password_min_lower: 1
+password_min_upper: 1
+password_min_numeric: 1
+password_min_special: 1
+password_override_sepcial: "!#*%&"
+
 users:
   - root
   - admin1

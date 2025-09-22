@@ -51,7 +51,7 @@
   block:
     - name: Generate password for each user
       set_fact:
-        user_passwords: "{{ user_passwords | default({}) | combine({ item.item: lookup('community.general.random_string', length=12, min_lower=1, min_upper=1, min_numeric=1, min_special=1, override_special='!#*%&') }) }}"
+        user_passwords: "{{ user_passwords | default({}) | combine({ item.item: lookup('community.general.random_string', length=password_length, min_lower=password_min_lower, min_upper=password_min_upper, min_numeric=password_min_numeric, min_special=password_min_special, override_special=password_override_special) }) }}"
       loop: "{{ expire_days.results }}"
       when: item.stdout | int <= 7 and item.stdout != 'never'
 
