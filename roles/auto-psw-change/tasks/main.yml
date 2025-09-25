@@ -14,15 +14,10 @@
         else
           echo $(( ( $(date -d "$password_expire" +%s) - $(date +%s) ) / 86400 ))
         fi
+      args:
+        executable: /bin/bash
       loop: "{{ users }}"
       register: expire_days
-      changed_when: false
-
-    - name: Filter the users
-      set_fact:
-        expire_users: "{{ expiring_users | default([]) + [item.item] }}"
-      loop: "{{ expire_days.results }}"
-      when: item.stdout | int <= 7
       changed_when: false
 
 - name: Create data sheet
@@ -30,20 +25,10 @@
     - name: Create header line in data file
       lineinfile:
         path: "/home/ansibleadm/password-{{ date }}.csv"
-        line: "Username,Host,Days until expiration"
+        line: "Username,Host,Password"
         create: yes
         mode: '0644'
         state: present
-      delegate_to: localhost
-      changed_when: false
-
-    - name: Create list with all passwords where expire is <7 days
-      lineinfile:
-        path: "/home/ansibleadm/password-{{ date }}.csv"
-        line: "{{ item.item }},{{ ansible_host }}"
-        create: yes
-        mode: '0644'
-      loop: "{{ expire_days.results }}"
       delegate_to: localhost
       changed_when: false
 
@@ -53,14 +38,14 @@
       set_fact:
         user_passwords: "{{ user_passwords | default({}) | combine({ item.item: lookup('community.general.random_string', length=password_length, min_lower=password_min_lower, min_upper=password_min_upper, min_numeric=password_min_numeric, min_special=password_min_special, override_special=password_override_special) }) }}"
       loop: "{{ expire_days.results }}"
-      when: item.stdout | int <= 7 and item.stdout != 'never'
+      when: item.stdout | int <= 7
 
     - name: Set new password for users
       user:
         name: "{{ item.item }}"
         password: "{{ user_passwords[item.item] | password_hash('sha512') }}"
       loop: "{{ expire_days.results }}"
-      when: item.stdout | int <= 7 and item.stdout != 'never'
+      when: item.stdout | int <= 7
 
     - name: Return new password
       set_fact:
@@ -74,7 +59,7 @@
     create: yes
     mode: '0644'
   loop: "{{ expire_days.results }}"
-  when: item.stdout | int <= 7 and item.stdout != 'never'
+  when: item.stdout | int <= 7
   delegate_to: localhost
 
 - name: Create & run DB inserts
