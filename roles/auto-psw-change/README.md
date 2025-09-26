@@ -12,8 +12,8 @@ A PostgreSQL-DB  with at least one table which contains the following columns:
 - password
 
 Ansible collections you need:
-community.general
-community.postgresql
+- community.general
+- community.postgresql
 
 
 Role Variables
