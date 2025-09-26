@@ -7,10 +7,10 @@
   block:
     - name: Calculate expire date into days$
       shell: |
-        password_expire="$(sudo chage -l "{{ item }}" | awk -F ': ' '/Password expires/ {print $2}')"
+        password_expire="$(LANG=en_US sudo chage -l "{{ item }}" | awk -F ': ' '/Password expires/ {print $2}')"
 
         if [[ "$password_expire" == "never" ]]; then
-          echo "never"
+          echo "999"
         else
           echo $(( ( $(date -d "$password_expire" +%s) - $(date +%s) ) / 86400 ))
         fi
