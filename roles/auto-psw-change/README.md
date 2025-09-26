@@ -6,10 +6,14 @@ This role is intended to automatically renew passwords for users whose password 
 Requirements
 ------------
 
-A postgresDB  with at least one table which contains the following columns
+A PostgreSQL-DB  with at least one table which contains the following columns:
 - hostname
 - username
 - password
+
+Ansible collections you need:
+community.general
+community.postgresql
 
 
 Role Variables
