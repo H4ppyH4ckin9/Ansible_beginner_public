@@ -1,6 +1,6 @@
 - name: Read data file
   set_fact:
-    password_data: "{{ lookup('file', '/path/to/data/file/password-{{ data }}.csv') | from_yaml }}"
+    password_data: "{{ lookup('file', {{ tmpfile }} ) | from_yaml }}"
 
 - name: Create insert statements
   postgresql_query:
