@@ -9,3 +9,5 @@ users:
   - root
   - admin1
   - admin2
+
+tmpfile: /path/to/tmp/password/file.csv
