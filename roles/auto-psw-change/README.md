@@ -30,8 +30,10 @@ Example Playbook
 ----------------
 
     ---
-    - name: test run for role
-    - hosts: servers
+    - name: Run role
+      hosts: servers
+      become: true
+      
       roles:
         - auto-psw-change
 
